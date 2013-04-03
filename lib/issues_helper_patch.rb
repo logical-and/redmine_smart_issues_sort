@@ -14,7 +14,7 @@ module SmartIssuesSort
       module InstanceMethods
         def sidebar_queries_with_category
           unless @sidebar_queries
-            @sidebar_queries = Query.visible.all(
+            @sidebar_queries = IssueQuery.visible.all(
               :order => "#{Query.table_name}.name ASC",
               # Project specific queries and global queries
               :conditions => (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]),
@@ -36,17 +36,19 @@ module SmartIssuesSort
               end
               queries.each do |query|
                 for_all_projects = query.project.nil? ? true : false
-                link_to_hash={:controller => 'issues', :action => 'index', :query_id => query, :project_id => @project }
-                link_to_hash[:project_id]=@project
-                query.project = @project unless @project.nil?
+                link_to_hash={:controller => 'issues', :action => 'index', :query_id => query, :project_id => nil }
+                unless for_all_projects
+                  link_to_hash[:project_id]=@project
+                  query.project = @project unless @project.nil?
+                end
                 out << link_to(h(query.name), link_to_hash, :class => (query.is_public? ? 'icon icon-fav-off' : 'icon icon-fav'))
                 if for_all_projects && @project != nil
-                  link_to_hash[:project_id]=nil
-                  query.project = nil
-                  out << " [#{link_to('A', link_to_hash)}]".html_safe
+                  link_to_hash[:project_id]=@project
+                  query.project = @project
+                  out << "[#{link_to('L', link_to_hash)}]".html_safe
                   issue_count = ''
                 else
-                  issue_count = " (#{query.issue_count.to_s rescue '???'})"
+                  issue_count = "(#{query.issue_count.to_s rescue '???'})"
                 end
                 out << "#{issue_count}<br />".html_safe
               end

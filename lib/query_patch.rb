@@ -1,4 +1,4 @@
-require_dependency 'query'
+require_dependency 'issue_query'
 require 'smart_issues_sort'
 require 'sis_asset_helpers'
 
@@ -10,7 +10,7 @@ module SmartIssuesSort
         base.class_eval do
           unloadable
           alias_method_chain :issues, :parent_sort
-          alias_method_chain :issue_ids, :parent_sort if Query.method_defined?(:issue_ids)
+          alias_method_chain :issue_ids, :parent_sort if IssueQuery.method_defined?(:issue_ids)
         end
       end
 
@@ -94,8 +94,8 @@ module SmartIssuesSort
   end
 end
 
-unless Query.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
-  Query.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch)
+unless IssueQuery.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
+  IssueQuery.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch)
 end
 
 unless Redmine::Helpers::Gantt.included_modules.include? SmartIssuesSort::Patches::GanttChartPatch
