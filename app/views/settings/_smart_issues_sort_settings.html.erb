@@ -1,0 +1,15 @@
+
+<p>
+  <%= check_box_tag "settings[prepend_parent_sort]", 1, @settings['prepend_parent_sort'] == '1'? true : false %>
+  <%= l(:label_qg_prepend_parent_always) %>
+</p>
+
+<p>
+  <%= check_box_tag "settings[use_default_sort]", 1, @settings['use_default_sort'] == '1'? true : false %>
+  <%= l(:label_qg_use_default_sort) %>
+</p>
+
+<p>
+  <%= check_box_tag "settings[nil_values_first]", 1, @settings['nil_values_first'] == '1'? true : false %>
+  <%= l(:label_qg_use_nil_values_first) %>
+</p>

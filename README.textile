@@ -1,0 +1,78 @@
+h2. Redmine smart issues sort plugin
+
+Smart issues sort plugin is a Redmine plugin that replaces default sort with one more intellegent.
+This sort method honors issue tree and parent - child relationships.
+
+Also this plugin adds category support for queries and several parent sort options.
+
+h3. Smart sorting
+
+Plugin replaces default Redmine issues sorting with one more intellegent. This type of sorting always puts children issues of parent issue after parent.
+
+Also it eleminates inconvenience when root issues sorted by parent issue are sorted by their ids instead.
+
+Because this kind of sorting has to sort all the issues in query it could be quite long compared to default for big (>3000 issues) queries.
+
+Plugin solves following issues in Redmine: *#7907, #10048*
+
+h3. New query options
+
+* Plugin adds categories support for Redmine queries and displays queries grouped by categories.
+* Plugin adds new option to queries which allows to always sort query by parent first thus keeping hierarchical issues structure
+
+h3. Global plugin options
+
+* *By default sort by parent issue first*
+ Automatically sorts issues by parent issue first if not explicitly disabled in named query
+* *Use default Redmine sort if no parent sort involved*
+ Allows to fallback to default Redmine sorting if no parent sorting involved for speeding up query process
+* *Put issues without values in sort fields on top (default Redmine behavior)*
+ Puts issues with empty fields (ie Start Date or Due date) foremost, otherwise puts them in the end of the list
+
+h3. System files modifications
+
+* Plugin aliases +Query+'s methods _issues_ and _issue_ids_
+* Plugin aliases +Gantt+ method _sort_issues!_
+* Plugin aliases +BetterGantt+ method _sort_issues_' if plugin *redmine_better_gantt_chart* installed
+* Plugin adds two new columns to the +Query+ model (*:category* and *:sort_by_parent_first*)
+* Plugin modifies following Redmine view: *queries/_form.html.erb*. Changes are between +VVK+ comment lines
+
+h3. Installation
+
+# Install plugin "Plugin views with revisions":http://www.redmine.org/plugins/redmine_plugin_views_revisions if you do not have it installed
+# Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
+# Run rake task
+ *rake redmine:plugins:process_version_change RAILS_ENV=production*
+# Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+
+h3. Compatibility
+
+* Plugin runs in *production mode* only
+* Please perform plugins migrations before running the plugin
+* During migration plugin turns on option *sort by parent first* for all existing queries
+
+h3. History
+
+0.3.1
+
+* Redmine 2.x compatibility
+
+0.3.0
+
+* Plugin depends on "Plugin views with revisions":http://www.redmine.org/plugins/redmine_plugin_views_revisions for further Redmine compatibility
+
+0.2.5
+
+* Compatibility bugfixes
+
+0.2.4
+
+* Compatibility with Redmine versions before 1.3.2 added
+
+0.2.3
+
+* Trackers now sorted by their position, not their name - the way Redmine does
+
+0.2.2
+
+* Initial release

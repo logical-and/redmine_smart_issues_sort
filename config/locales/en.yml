@@ -1,0 +1,5 @@
+en:
+  label_qg_prepend_parent_always: "By default sort by parent issue first"
+  label_qg_sort_by_parent_issue: "Sort by parent first"
+  label_qg_use_default_sort: "Use default Redmine sort if no parent sort involved"
+  label_qg_use_nil_values_first: "Put issues without values in sort fields on top (default Redmine behavior)"
