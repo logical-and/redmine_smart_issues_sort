@@ -1,4 +1,3 @@
-
 module SmartIssuesSort
   module Patches
     module RenderQueriesPatch
@@ -14,13 +13,24 @@ module SmartIssuesSort
       module InstanceMethods
         def sidebar_queries_with_category
           unless @sidebar_queries
-            @sidebar_queries = IssueQuery.visible.all(
-              :order => "#{Query.table_name}.name ASC",
-              # Project specific queries and global queries
-              :conditions => (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]),
-              # Make sure we load category as well
-              :select => [:name, :category, :is_public]
-            )
+            if Redmine::VERSION::MAJOR > 2 ||
+              (Redmine::VERSION::MAJOR == 2 && Redmine::VERSION::MINOR >= 3)
+              @sidebar_queries = IssueQuery.visible.all(
+                :order => "#{IssueQuery.table_name}.name ASC",
+                # Project specific queries and global queries
+                :conditions => (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]),
+                # Make sure we load category as well
+                :select => [:name, :category, :is_public]
+              )
+            else
+	            @sidebar_queries = IssueQuery.visible.all(
+	              :order => "#{Query.table_name}.name ASC",
+	              # Project specific queries and global queries
+	              :conditions => (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]),
+	              # Make sure we load category as well
+	              :select => [:name, :category, :is_public]
+	            )
+	          end
           end
           @sidebar_queries
         end

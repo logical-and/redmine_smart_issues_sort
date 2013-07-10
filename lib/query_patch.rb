@@ -94,8 +94,15 @@ module SmartIssuesSort
   end
 end
 
-unless IssueQuery.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
-  IssueQuery.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch)
+if Redmine::VERSION::MAJOR > 2 || 
+   (Redmine::VERSION::MAJOR == 2 && Redmine::VERSION::MINOR >= 3) 
+  unless IssueQuery.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
+    IssueQuery.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch)
+  end
+else
+	unless IssueQuery.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
+	  IssueQuery.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch)
+	end
 end
 
 unless Redmine::Helpers::Gantt.included_modules.include? SmartIssuesSort::Patches::GanttChartPatch
