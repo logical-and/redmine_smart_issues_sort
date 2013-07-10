@@ -76,7 +76,7 @@ module SmartIssuesSort
         base.send(:include, InstanceMethods)
         base.class_eval do
           unloadable
-          alias_method_chain :sort_issues!, :parent_sort
+          #alias_method_chain :sort_issues!, :parent_sort
         end
       end
 
