@@ -19,6 +19,7 @@
 <p><label for="query_is_public"><%=l(:field_is_public)%></label>
 <%= check_box 'query', 'is_public',
       :onchange => (User.current.admin? ? nil : 'if (this.checked) {$("#query_is_for_all").removeAttr("checked"); $("#query_is_for_all").attr("disabled", true);} else {$("#query_is_for_all").removeAttr("disabled");}') %></p>
+
 <% end %>
 
 <p><label for="query_is_for_all"><%=l(:field_is_for_all)%></label>
@@ -28,6 +29,7 @@
 <p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
 <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
       :onclick => 'if (this.checked) {$("#columns").hide();} else {$("#columns").show();}' %></p>
+
 
 <p><label for="query_group_by"><%= l(:field_group_by) %></label>
 <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
@@ -49,7 +51,7 @@
   </p>
 <%# VVK end %>
 <% 3.times do |i| %>
-<%= i+1 %>: 
+<%= i+1 %>:
 <%= label_tag "query_sort_criteria_attribute_" + i.to_s,
               l(:description_query_sort_criteria_attribute), :class => "hidden-for-sighted" %>
 <%= select_tag("query[sort_criteria][#{i}][]",
@@ -69,7 +71,7 @@
 <%= render_query_columns_selection(query) %>
 <% end %>
 
-</div> 
+</div>
 
 <%# VVK start %>
 <% content_for :header_tags do %>

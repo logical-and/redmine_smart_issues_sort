@@ -17,9 +17,9 @@
     <td>
       <%= label_tag "selected_columns", l(:description_selected_columns) %>
       <br />
-      <%= select_tag 'selected_columns',
+      <%= select_tag 'c[]',
               options_for_select(query_selected_inline_columns_options(query)),
-              :multiple => true, :size => 10, :style => "width:150px",
+              :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px",
               :ondblclick => "moveOptions(this.form.selected_columns, this.form.available_columns);" %>
     </td>
     <td class="buttons">

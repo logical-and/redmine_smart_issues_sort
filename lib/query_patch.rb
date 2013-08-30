@@ -13,7 +13,7 @@ module SmartIssuesSort
           alias_method_chain :issue_ids, :parent_sort if IssueQuery.method_defined?(:issue_ids)
         end
       end
-
+     
       module InstanceMethods
         def issues_with_parent_sort(options={})
           #def_logger=logger
@@ -95,14 +95,14 @@ module SmartIssuesSort
 end
 
 if Redmine::VERSION::MAJOR > 2 || 
-   (Redmine::VERSION::MAJOR == 2 && Redmine::VERSION::MINOR >= 3) 
-  unless IssueQuery.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
-    IssueQuery.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch)
+   (Redmine::VERSION::MAJOR == 2 && Redmine::VERSION::MINOR >= 3)
+   unless IssueQuery.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
+    IssueQuery.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch) 
   end
 else
-	unless IssueQuery.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
-	  IssueQuery.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch)
-	end
+   unless Query.included_modules.include? SmartIssuesSort::Patches::QuerySortCriteriaPatch
+     Query.send(:include, SmartIssuesSort::Patches::QuerySortCriteriaPatch)
+   end
 end
 
 unless Redmine::Helpers::Gantt.included_modules.include? SmartIssuesSort::Patches::GanttChartPatch
