@@ -46,7 +46,8 @@ module SmartIssuesSort
               end
               queries.each do |query|
                 for_all_projects = query.project.nil? ? true : false
-                link_to_hash={:controller => 'issues', :action => 'index', :query_id => query, :project_id => @project }
+                #link_to_hash={:controller => 'issues', :action => 'index', :query_id => query, :project_id => @project }
+                link_to_hash = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :query_id => query, :project_id => @project } : {:query_id => query}
                 link_to_hash[:project_id]=@project
                 query.project = @project unless @project.nil?
                 out << link_to(h(query.name), link_to_hash, :class => (query.is_public? ? 'icon icon-fav-off' : 'icon icon-fav'))
